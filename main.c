@@ -8,7 +8,7 @@ button_press_callback (GtkWidget      *event_box,
                      GdkEventButton *event,
                      gpointer        data)
 {
-g_print ("Event box clicked at coordinates %f,%f\n",
+g_print ("Coordinates %f,%f\n",
          event->x, event->y);
 
 // Returning TRUE means we handled the event, so the signal
@@ -17,11 +17,15 @@ g_print ("Event box clicked at coordinates %f,%f\n",
 return TRUE;
 }
 
-static void
-print_hello (GtkWidget *widget,
-             gpointer   data)
+void
+print_hello (GtkWidget *widget, int *hol)
 {
-    g_print ("Hello World\n");
+
+
+    printf("Hello World\n");
+    printf("hello2");
+    *hol += 1;
+
 }
 
 static void
@@ -58,6 +62,7 @@ activate (GtkApplication *app,
 
     button = gtk_button_new_with_label("Plot");
     gtk_grid_attach(GTK_GRID(grid),button,0,2,1,2);
+    g_signal_connect (button, "clicked", G_CALLBACK (print_hello), window);
 
     button2 = gtk_button_new_with_label("Quit");
     g_signal_connect_swapped (button2, "clicked", G_CALLBACK (gtk_widget_destroy), window);
@@ -75,11 +80,14 @@ main (int    argc,
 {
     GtkApplication *app;
     int status;
+    int hol;
 
     app = gtk_application_new ("org.gtk.example", G_APPLICATION_FLAGS_NONE);
     g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
     status = g_application_run (G_APPLICATION (app), argc, argv);
     g_object_unref (app);
+
+    printf("%d",hol);
 
     return status;
 }
