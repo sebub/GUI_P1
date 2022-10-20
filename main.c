@@ -20,11 +20,7 @@ return TRUE;
 void
 print_hello (GtkWidget *widget, int *hol)
 {
-
-
     printf("Hello World\n");
-    printf("hello2");
-    *hol += 1;
 
 }
 
@@ -35,6 +31,8 @@ activate (GtkApplication *app,
     GtkWidget *window;
     GtkWidget *button;
     GtkWidget *button2;
+    GtkWidget *button3;
+    GtkWidget *button4;
     GtkWidget *button_box;
     GtkWidget *image;
     GtkWidget *event_box;
@@ -48,7 +46,7 @@ activate (GtkApplication *app,
     GtkWidget *grid = gtk_grid_new ();
     gtk_container_add (GTK_CONTAINER (window), grid);
 
-    image = gtk_image_new_from_file ("C:\\Users\\sebbe\\Desktop\\P0\\Billeder\\Danmark.jpg");
+    image = gtk_image_new_from_file ("C:\\Users\\sebbe\\Desktop\\kort.png");
     event_box = gtk_event_box_new ();
     gtk_grid_attach (GTK_GRID(grid), event_box,0,0,2,1);
 
@@ -69,6 +67,13 @@ activate (GtkApplication *app,
     g_signal_connect(window, "key-press-event", G_CALLBACK(activate), NULL);
     gtk_grid_attach(GTK_GRID(grid),button2,1,2,1,2);
 
+    button3 = gtk_button_new_with_label("1");
+    gtk_grid_attach(GTK_GRID(grid),button3,0,4,1,2);
+    g_signal_connect (button, "clicked", G_CALLBACK (print_hello), window);
+
+    button4 = gtk_button_new_with_label("2");
+    gtk_grid_attach(GTK_GRID(grid),button4,1,4,1,2);
+    g_signal_connect (button, "clicked", G_CALLBACK (print_hello), window);
 
 
     gtk_widget_show_all (window);
@@ -80,14 +85,13 @@ main (int    argc,
 {
     GtkApplication *app;
     int status;
-    int hol;
+
 
     app = gtk_application_new ("org.gtk.example", G_APPLICATION_FLAGS_NONE);
     g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
     status = g_application_run (G_APPLICATION (app), argc, argv);
     g_object_unref (app);
 
-    printf("%d",hol);
 
     return status;
 }
